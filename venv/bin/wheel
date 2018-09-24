@@ -1,4 +1,4 @@
-#!/home/kinara/workspace/kinara/venv/bin/python
+#!/home/kinara/workspace/fast-food-fast-api/venv/bin/python
 
 # -*- coding: utf-8 -*-
 import re
