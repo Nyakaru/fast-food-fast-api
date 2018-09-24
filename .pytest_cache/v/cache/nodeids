@@ -1,0 +1,13 @@
+[
+  "app/tests/test_order.py::TestApi::test_complete_order", 
+  "app/tests/test_order.py::TestApi::test_decline_order", 
+  "app/tests/test_order.py::TestApi::test_declined_orders", 
+  "app/tests/test_order.py::TestApi::test_delete_order", 
+  "app/tests/test_order.py::TestApi::test_get_approved_orders", 
+  "app/tests/test_order.py::TestApi::test_get_completed_orders", 
+  "app/tests/test_order.py::TestApi::test_get_orders", 
+  "app/tests/test_order.py::TestApi::test_get_pending_orders", 
+  "app/tests/test_order.py::TestApi::test_one_order", 
+  "app/tests/test_order.py::TestApi::test_post_orders", 
+  "app/tests/test_order.py::TestApi::test_put_order"
+]
