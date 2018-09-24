@@ -11,3 +11,8 @@ script:
 
 after_succes:
 - coveralls
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: "fast-food-fast-/api/v1"
