@@ -95,20 +95,20 @@ class DeclinedOrders(Resource):
 
         declinedorders = []
         for order in orders:
-            if order.status == "declined":
+            if order.status == "rejected":
                 declinedorders.append(order)
         
         
-        return {"declined orders":[order.serialize() for order in declinedorders]}
+        return {"rejected orders":[order.serialize() for order in declinedorders]}
         
 
 class PendingOrders(Resource):
     def get(self):
         pendingorders = []
         for order in orders:
-            if order.status == "pending":
+            if order.status == "waiting":
                 pendingorders.append(order)
-        return {"pending orders":[order.serialize() for order in pendingorders]}
+        return {"waiting orders":[order.serialize() for order in pendingorders]}
 
 
 class CompleteOrder(Resource):
@@ -118,14 +118,14 @@ class CompleteOrder(Resource):
             if order.status != "approved":
                 return {"message":"The order is already {}".format(order.status)}
             if order.status == "approved":
-                order.status = "completed"
+                order.status = "delivered"
                 return {"message":"Order has beeen completed and will be delivered"}
         return {"message":"order not found"}
 class CompletedOrders(Resource):
     def get(self):
         completedorders = []
         for order in orders:
-            if order.status == "completed":
+            if order.status == "delivered":
                 completedorders.append(order)
-        return {"completed orders":[order.serialize() for order in completedorders]}
+        return {"delivered orders":[order.serialize() for order in completedorders]}
 
