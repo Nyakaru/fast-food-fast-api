@@ -11,7 +11,7 @@ fast-food-fast-api is a backend for a fast food delivery service app for a resta
 
 ### Running and testing app
 ## Running:
-
+```
 $ virtualenv venv
 $ cd venv
 $ git clone https://github.com/Nyakaru/fast-food-fast-api.git
@@ -19,11 +19,12 @@ $ source venv/bin/activate
 $ cd fast-food-fast-api
 $ export APP_SETTINGS=development
 $ python run.py
-
+```
 ## Testing
 Follow the above process then;
+```
 $ pytest -v
-
+```
 ### Hosting
 https://nyakaru-fast-food-fast.herokuapp.com/api/v1/orders
 
