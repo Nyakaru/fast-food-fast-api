@@ -2,12 +2,7 @@ venv
 __pycache__
 .pytest_cache/
 .env
-.coverage
-.app/__init__.pyc
-.app/apiv1/__init__.pyc
-.app/apiv1/orders/__init__.pyc
-.app/apiv1/orders/views.pyc
-.app/models.pyc
-.instance/__init__.pyc
-.instance/config.pyc
+.cache
+.*pyc
+
 
