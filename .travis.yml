@@ -7,7 +7,7 @@ install:
   - pip install coveralls
 
 script:
-  - coverage run --source app/tests/ -m pytest
+  - coverage run --source app,tests,instance -m pytest
    # coverage reports
   - python -m coverage report -m
 
