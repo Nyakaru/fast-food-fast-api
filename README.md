@@ -28,6 +28,9 @@ $ pytest -v
 ### Hosting
 https://nyakaru-fast-food-fast.herokuapp.com/api/v1/orders
 
+### Api Documentation
+https://documenter.getpostman.com/view/5294981/RWgjYMBB
+
 ### Author
 Developed by:
 .. Nyakaru Kinara

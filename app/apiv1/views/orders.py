@@ -32,12 +32,6 @@ class Orders(Resource):
             return {'message':'You have entered incomplete order information'}
         elif type(data['name']) != str and type(data['price']) != int and type(data['description']) != str :
             return {'message':'You have entered incorrect data types'}
-        elif type(data['name']) != str:                                                                                                                                         
-            return {'message':'You have entered incorrect data type for the name'}
-        elif type(int (data['price'])) != int:
-            return {'message':'You have entered incorrect data type for the price'}
-        elif type(data['description']) != str:
-            return {'message':'You have entered incorrect data type for the description'}
         else:
             return {"message":"Order created",'orders': order_data}, 201
         if name in orders:
