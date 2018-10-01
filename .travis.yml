@@ -1,0 +1,19 @@
+language: python
+python:
+  - "3.6"
+
+install: 
+  - pip install -r requirements.txt
+  - pip install coveralls
+
+script:
+
+  - coverage run --source app,tests,instance -m pytest
+   # coverage reports
+
+  - python -m coverage report -m
+
+after_success:
+  - coveralls
+  
+
