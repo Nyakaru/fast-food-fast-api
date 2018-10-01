@@ -1,4 +1,4 @@
-from ..db.conn import create_conn
+from ..database.connect import create_conn
 from psycopg2.extras import RealDictCursor
 import json
 
