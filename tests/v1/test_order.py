@@ -9,7 +9,7 @@ from unittest import TestCase
 
 from flask_restful import Resource
 
-from app.apiv1.views.orders import SpecificOrder, Orders, AcceptedOrders, DeclineOrder, DeclinedOrders, PendingOrders, CompleteOrder, CompletedOrders
+from app.apiv1.orders.views import SpecificOrder, Orders, AcceptedOrders, DeclineOrder, DeclinedOrders, PendingOrders, CompleteOrder, CompletedOrders
 
 
 

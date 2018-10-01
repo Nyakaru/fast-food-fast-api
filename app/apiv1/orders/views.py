@@ -1,6 +1,6 @@
 from flask_restful import Resource
 from flask import  Flask,jsonify,request,Response,json
-from app.apiv1.models import orders, Order
+from app.models import orders, Order
 
 
 orders = []
@@ -26,14 +26,7 @@ class Orders(Resource):
         order_data['description'] = data['description']
         order_data['id'] = len(orders) + 1    
         orders.append(order_data)
-        if not data['name'] and not data['price'] and not data['description']:
-            return {'message':'Please enter your order information'}
-        elif not data['name'] or not data['price'] or not data['description']:
-            return {'message':'You have entered incomplete order information'}
-        elif type(data['name']) != str and type(data['price']) != int and type(data['description']) != str :
-            return {'message':'You have entered incorrect data types'}
-        else:
-            return {"message":"Order created",'orders': order_data}, 201
+        return {"message":"Order created",'orders': order_data}, 201
         if name in orders:
             return {'message': 'Order already exists'}
 
