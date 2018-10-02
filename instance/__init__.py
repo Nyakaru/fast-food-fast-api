@@ -1,50 +1,42 @@
-
+from flask import Flask
 from flask_restful import Api
-from flask import Flask 
 from flask_jwt_extended import JWTManager
-import os
-from instance.config import app_config 
+from app.apiv1.orders.views import Orders, SpecificOrder,AcceptedOrders,DeclineOrder,CompleteOrder
+from instance.config import app_config
+from app.apiv2.views.auth import Signup, Login
+from app.apiv2.views.meals import Meals
 
-from app.apiv2.database.connect import create_db
+jwt = JWTManager()
 
-# import resources
-from app.apiv2.resources.orders import (CustomersOrdersListResource, OrdersResource, AdminOrdersListResource)
-from app.apiv2.resources.meals import (FoodListResource, FoodResource)
-from app.apiv2.resources.auth import (RegisterResource, LoginResource)
-from app.apiv2.resources.menu import (MenuListResource, MenuResource)
+def create_app(config_stage):
+    app = Flask(__name__, instance_relative_config=True)
+    app.config.from_object(app_config[config_stage])
 
-def create_app(config_name): 
-    """
-        creates the app and registers the endpoints
-    """
-    #initialize flask
-    app = Flask(__name__, instance_relative_config=True) 
-    # add configs
-    app.config.from_object(app_config[config_name])
-    app.config.from_pyfile('config.py')
-    #add the prefix
-    with app.app_context():
-        create_db()
-        
-    jwt = JWTManager(app)
+    jwt.init_app(app)
+
+    from app.apiv2.views.auth import auth_blueprint as auth_bp
+    auth = Api(auth_bp)
+    app.register_blueprint(auth_bp, url_prefix='/api/v2/auth')
+
+    from app.apiv2.views.meals import meal_blueprint as meal_bp
+    meal = Api(meal_bp)
+    app.register_blueprint(meal_bp, url_prefix='/api/v2')
 
 
-    api2 = Api(app, prefix='/api/v2')
+    from app.apiv1.orders import orders_bp as orders_blueprint
+    api = Api(orders_blueprint)
+    app.register_blueprint(orders_blueprint, url_prefix='/api/v1')
 
-    #register v1 endpoints
-
-    #register v2 endpointscl
-    api2.add_resource(RegisterResource, '/auth/signup')
-    api2.add_resource(LoginResource, '/auth/login')
-    api2.add_resource(AdminOrdersListResource, '/orders')
-    api2.add_resource(CustomersOrdersListResource, '/users/orders')
-    api2.add_resource(OrdersResource, '/orders/<int:id>')
-    api2.add_resource(MenuListResource, '/menu')
-    api2.add_resource(MenuResource, '/menu/<int:id>')
-    api2.add_resource(FoodListResource, '/meals')
-    api2.add_resource(FoodResource, '/meals/<int:id>')
+    auth.add_resource(Signup, '/signup')
+    auth.add_resource(Login, '/login')
+    api.add_resource(Orders, '/orders')
+    meal.add_resource(Meals, '/meals')
+    api.add_resource(SpecificOrder, '/orders/<int:id>')
+    api.add_resource(AcceptedOrders,'/orders/accept/<int:id>')
+    api.add_resource(DeclineOrder,'/orders/decline/<int:id>')
+    api.add_resource(CompleteOrder,'/orders/completeorder/<int:id>')
     
-
-    # api2.add_resource(LogoutResource,'/logout')
+    app = Flask(__name__)
     return app
 
+    
