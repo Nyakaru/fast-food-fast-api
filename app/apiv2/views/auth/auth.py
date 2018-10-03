@@ -1,10 +1,11 @@
 import re
+import os
 
 from flask_restful import Resource
 from flask import request
 from werkzeug.security import check_password_hash
 from flask_jwt_extended import create_access_token
-
+import jwt
 from app.apiv2.models.models import User
 
 class Signup(Resource):
@@ -27,9 +28,7 @@ class Signup(Resource):
         
         if User().get_user_by_username(username):
             return {'message': 'username already in use'}, 400
-        
-        if User().get_user_by_email(email):
-            return {'message': 'email already in use'}, 400
+       
 
 
         user = User(username, email, password)
@@ -46,16 +45,19 @@ class Login(Resource):
         username = data['username']
         password = data['password']
 
+        #user = User(username=username,password=password)
         user = User().get_user_by_username(username)
-
+        user_dict = user.serialize()
         if not user:
             return {'message': 'user not found'}, 404
-
-        if not check_password_hash(user.password, password):
+        result = check_password_hash(user_dict["password"], password)
+        if not result:
             return {'message': 'Wrong password'}, 400
+        else:
+            token = jwt.encode({'data' : user_dict },'verysecret',algorithm = 'HS256')#create_access_token(user.serialize())
+            return {
+                'token': token,
+                'message': 'You were successfully logged in {}'.format(username)
+            }, 200
 
-        token = create_access_token(user.serialize())
-        return {
-            'token': token,
-            'message': 'You were successfully logged in {username}'
-        }, 200
+

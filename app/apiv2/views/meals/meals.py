@@ -6,16 +6,17 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.apiv2.models.models import MealItem, User
 
 class Meals(Resource):
-    @jwt_required
+    
     def post(self):
         ''' Method that creates a meal item '''
+
         data = request.get_json()
         name = data['name']
         description = data['description']
         price = data['price']
 
-        if not (get_jwt_identity()['is_admin']):
-            return {'message':'You cannot access this route'}, 401
+        #if not (get_jwt_identity()['is_admin']):
+         #   return {'message':'You cannot access this route'}, 401
        
         # if MealItem().get_meal_by_name(name):
         #     return {'message': f'meal with name {name} alredy exists'}, 400
@@ -33,8 +34,9 @@ class Meals(Resource):
         mealitem = MealItem(name, description, price)
 
         mealitem.add()
+        return {"message": "meal item created"}
 
-    @jwt_required
+    #@jwt_required
     def get(self):
         '''return a list of created mealitems'''
 
@@ -43,4 +45,4 @@ class Meals(Resource):
             "food_items": [meal_item.serialize() for meal_item in meal_items]
         }, 200
 
-        return {"message": "meal item created"}
+        
