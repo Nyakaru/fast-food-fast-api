@@ -16,9 +16,6 @@ class Meals(Resource):
         name = data['name']
         description = data['description']
         price = data['price']
-
-        #if not (get_jwt_identity()['is_admin']):
-         #   return {'message':'You cannot access this route'}, 401
        
         if MealItem().get_by_name(name):
             return {'message': 'meal with name {name} alredy exists'}, 400
@@ -53,6 +50,20 @@ class Meals(Resource):
             }, 200
 
         return {"message": "meal items not found"}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #class SpecificMeal(Resource):
 

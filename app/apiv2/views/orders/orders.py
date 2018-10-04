@@ -4,7 +4,7 @@ from app.apiv2.models.models import User, Order, MealItem
 
 
 class Orders(Resource):
-    ##@jwt_required
+    #
     def post(self):
         '''post an order by the user'''
 
@@ -18,7 +18,7 @@ class Orders(Resource):
         return {"message": "order placed sucessfully"}, 201
 
 
-    ##@jwt_required
+    
     def get(self):
 
         ''' get all orders'''
@@ -30,7 +30,7 @@ class Orders(Resource):
         return {"message": "No orders found"}
 
 class SpecificOrder(Resource):
-    #@jwt_required
+    
     def get(self, id):
         '''get a specific order by id'''
 
@@ -41,15 +41,13 @@ class SpecificOrder(Resource):
 
         return {"message": "Order not found"}, 404
 
-    #@jwt_required
+    
     def put(self, id):
         ''' Method that updates a specific order '''
         
         order = Order().get_by_id(id)
         data = request.get_json()
 
-        #if not (get_jwt_identity()['is_admin']):
-         #   return {'message':'You cannot access this route'}, 401
 
         if data['status'].strip() == ",":
             return ({'message': 'Enter valid status input'}, 400)
@@ -64,7 +62,7 @@ class SpecificOrder(Resource):
         
         return {"Message":"Order not found"},404
 
-    #@jwt_required
+    
     def delete(self, id):
         ''' Method that deletes a specific order '''
 
@@ -77,10 +75,9 @@ class SpecificOrder(Resource):
 
 
 class UserHistory(Resource):
-    #@jwt_required
+    
     def get(self):
         ''' Method to get all orders of a particular user '''
-        username = get_jwt_identity()[0]
         
 
         order_items = Order().get_order_history(username)
