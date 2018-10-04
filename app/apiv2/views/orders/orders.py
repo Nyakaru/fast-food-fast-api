@@ -1,10 +1,51 @@
 from flask import Flask, request
 from flask_restful import Resource
 from app.apiv2.models.models import User, Order, MealItem
+from functools import wraps
+import jwt
 
+def auth_login(func):
+    @wraps(func)
+    def decorate_function(*args,**kwargs):
+        if 'LOGIN-KEY' in request.headers:
+            token_key = request.headers['LOGIN-KEY']
+            print token_key
+
+            try:
+                values = jwt.decode(token_key,'verysecret')
+                print values
+                
+
+            except:
+                return 'Invalid Token error'  
+        else:
+            return 'No token passed'
+        return func(*args, **kwargs)
+
+    return decorate_function
+
+def admin_login(func):
+    @wraps(func)
+    def decorate_function(*args,**kwargs):
+        if 'ADMIN-KEY' in request.headers:
+            token_key = request.headers['ADMIN-KEY']
+            print token_key
+
+            try:
+                values = jwt.decode(token_key,'verysecret')
+                print values
+                
+
+            except:
+                return 'Invalid Token error'  
+        else:
+            return 'No token passed'
+        return func(*args, **kwargs)
+
+    return decorate_function
 
 class Orders(Resource):
-    #
+    @auth_login
     def post(self):
         '''post an order by the user'''
 
@@ -18,7 +59,7 @@ class Orders(Resource):
         return {"message": "order placed sucessfully"}, 201
 
 
-    
+    @admin_login
     def get(self):
 
         ''' get all orders'''
@@ -30,7 +71,7 @@ class Orders(Resource):
         return {"message": "No orders found"}
 
 class SpecificOrder(Resource):
-    
+    @admin_login
     def get(self, id):
         '''get a specific order by id'''
 
@@ -41,7 +82,7 @@ class SpecificOrder(Resource):
 
         return {"message": "Order not found"}, 404
 
-    
+    @admin_login
     def put(self, id):
         ''' Method that updates a specific order '''
         
@@ -62,7 +103,7 @@ class SpecificOrder(Resource):
         
         return {"Message":"Order not found"},404
 
-    
+    @admin_login
     def delete(self, id):
         ''' Method that deletes a specific order '''
 

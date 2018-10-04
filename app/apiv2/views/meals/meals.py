@@ -1,12 +1,33 @@
 import re
 import json
-
+from functools import wraps
+import jwt
 from flask_restful import Resource
 from flask import request
 from app.apiv2.models.models import MealItem, User
 
+def admin_login(func):
+    @wraps(func)
+    def decorate_function(*args,**kwargs):
+        if 'ADMIN-KEY' in request.headers:
+            token_key = request.headers['ADMIN-KEY']
+            print token_key
+
+            try:
+                values = jwt.decode(token_key,'verysecret')
+                print values
+                
+
+            except:
+                return 'Invalid Token error'  
+        else:
+            return 'No token passed'
+        return func(*args, **kwargs)
+
+    return decorate_function
+
 class Meals(Resource):
-    
+    @admin_login
     def post(self):
         ''' Method that creates a meal item '''
 
@@ -35,7 +56,7 @@ class Meals(Resource):
         mealitem.add()
         
         return {"message": "meal item created"}
-
+    @admin_login
     def get(self):
         
         '''return a list of created mealitems'''

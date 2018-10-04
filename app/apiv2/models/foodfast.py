@@ -15,6 +15,17 @@ CREATE TABLE IF NOT EXISTS users(
 );
 """
 
+admin_table = """
+CREATE TABLE IF NOT EXISTS admin(
+    admin_id serial PRIMARY KEY,
+    username VARCHAR NOT NULL,
+    password VARCHAR NOT NULL,
+    email VARCHAR NOT NULL
+   
+    
+);
+"""
+
 
 meals_table = """
 CREATE TABLE IF NOT EXISTS meals(
@@ -46,6 +57,7 @@ def create_tables():
     cur.execute(meals_table)
     cur.execute(category_table)
     cur.execute(order_table)
+    cur.execute(admin_table)
     conn.commit()
     cur.close()
     conn.close()

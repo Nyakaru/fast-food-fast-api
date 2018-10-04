@@ -82,6 +82,66 @@ class User():
 
         return self  
 
+class Admin():
+    def __init__(self,
+                 username=None,
+                 email=None,
+                 password=None
+                 ):
+        
+        self.username = username
+        self.email = email
+        if password:
+            self.password = generate_password_hash(password)
+           
+
+    def add(self):
+        ''' Add users to user table'''
+        cur.execute(
+            ''' INSERT INTO admin(username, email, password) VALUES(%s, %s,%s)''',
+            (self.username, self.email, self.password))
+
+        conn.commit()
+
+    def get_admin_by_username(self, username):
+        ''' get admin by username '''
+        f = "SELECT * FROM admin WHERE username='{}'".format(username)
+        cur.execute(f)
+                           
+
+        admin = cur.fetchone()
+
+        conn.commit()
+        
+
+        if admin:
+            return self.objectify_admin(admin)
+        return None
+
+
+
+
+    def serialize(self):
+        '''return an object as dictionary'''
+        return dict(
+            id=self.id,
+            username=self.username,
+            password=self.password,
+            email=self.email
+            
+            )
+
+    def objectify_admin(self, data):
+        ''' change a tuple user to an object '''
+        self.id = data[0]
+        self.username = data[1]
+        self.password = data[2]
+        self.email = data[3]
+        
+        
+
+        return self  
+
 class MealItem():
     def __init__(self, name=None, description=None, price=None):
         
