@@ -98,20 +98,40 @@ class MealItem():
 
         conn.commit()
 
-        
+    def get_by_name(self, name):
+        '''fetch an item by name'''
 
-    def get_all_meals(self):
-        '''  Get all food meals '''
-        cur.execute(''' SELECT * FROM meals''')
+        g ="SELECT * FROM meals WHERE name='{}'".format(name)
+        cur.execute(g)
 
-        meals = cur.fetchall()
+        meal = cur.fetchone()
 
         conn.commit()
         
 
-        if meals:
-            return [self.objectify(meal) for meal in meals]
+        if meal:
+            return self.objectify(meal)
         return None
+
+        
+
+    def get_all_meals(self):
+        '''  Get all food meals '''
+        f = "SELECT * FROM meals"
+        cur.execute(f)
+                           
+
+        meals = cur.fetchall()
+
+        return meals
+        
+
+        #if meals:
+            #return meals
+            #for meal in meals:
+                #return self.objectify_meal(meal)
+        #return {'message':"Meals not found/"}
+
 
     def serialize(self):
         ''' Return object as dictionary '''
@@ -122,11 +142,13 @@ class MealItem():
             price = self.price
         )
 
-    def objectify(self, data):
+    def objectify_meal(self, data):
         ''' map tuple to an object '''
-        item = MealItem(name=data[1], description=data[2], price=data[3])
-        item.id = data[0]
-        self = item
+        self.id = data[0]
+        self.name = data[1]
+        self.description = data[2]
+        self.price = data[3]
+
         return self
 
 
@@ -134,33 +156,30 @@ class MealItem():
 class Order():
     def __init__(self,
                 # id = None,
-                 username=None,
-                 title=None,
-                 description = None,
-                 price=None,
-                 status="Pending"):
+                 name=None,
+                 qty=None,
+                 ):
         
-        self.username = username
-        self.title = title
-        self.description = description
-        self.price = price
-        self.status = status
+        self.name = name
+        self.qty = qty
+        
+        
         
 
     def add(self):
         ''' Add food order to database'''
-        print(self.username)
+        #print(self.username)
         cur.execute(
-            """ INSERT INTO orders(username, title, description, price, status) VALUES('%s','%s','%s','%s','%s')""" %
-            (self.username, self.title, self.description, self.price,self.status))
+            ''' INSERT INTO orders(name, qty) VALUES(%s,%s)''',
+            (self.name, self.qty))
 
         conn.commit()
-        
+    
 
     def get_by_id(self, order_id):
         '''fetch an order by id'''
-        cur.execute(''' SELECT * FROM orders WHERE id=%s''',
-                            (order_id, ))
+        j = "SELECT * FROM orders WHERE order_id='{}'".format(order_id)
+        cur.execute(j)                   
 
         order = cur.fetchone()
 
@@ -170,6 +189,20 @@ class Order():
         if order:
             return self.objectify(order)
         return None
+
+    def get_by_username(self, username):
+        '''fetch orders by username'''
+        v = "SELECT * FROM users WHERE username='{}'".format(username)
+        cur.execute(v)
+        orders = cur.fetchall()
+        #print("\n\n\n####{}\n\n".format(orders))
+        conn.commit()
+      
+        if orders:
+            return [self.objectify(order) for order in orders]
+        return None
+
+        
 
     def get_all_orders(self):
         '''  Get all food orders '''
@@ -184,6 +217,19 @@ class Order():
             return [self.objectify(order) for order in orders]
         return None
 
+    def get_order_history(self, username):
+        ''' fetch all orders of a particular user'''
+        d = "SELECT * FROM users WHERE username='{}'".format(username)
+        
+        cur.execute(d)
+        
+        orders = cur.fetchall()
+        #print("\n\n\n####{}\n\n".format(orders))
+        conn.commit()
+      
+        if orders:
+            return [self.objectify(order) for order in orders]
+        return None
     def delete(self, order_id):
         ''' Delete order '''
         cur.execute(''' DELETE FROM orders WHERE id=%s''',
@@ -195,23 +241,23 @@ class Order():
         ''' return object as a dictionary '''
         return dict (
             id = self.id,
-            title = self.title,
-            description = self.description,
-            price = self.price,
-            status = self.status,
-            date = self.date
+            name = self.name,
+            qty = self.qty
         )
     
     def objectify(self, data):
         ''' map tuple to an object '''
         order = Order(
-            username=data[1],
-            description=data[2],
-            title=data[3],
-            price=data[4],
-            status=data[5])
+            name=data[1],
+            qty=data[2],
+            )
         order.id = data[0]
-        order.date = str(data[6])
         self = order
         return self
           
+
+
+
+
+
+

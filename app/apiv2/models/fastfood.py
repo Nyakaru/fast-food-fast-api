@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS users(
 meals_table = """
 CREATE TABLE IF NOT EXISTS meals(
     meal_id serial PRIMARY KEY,
-    price numeric NOT NULL,
+    price INTEGER NOT NULL,
     description VARCHAR NOT NULL,
     name VARCHAR NOT NULL 
 );
@@ -34,10 +34,10 @@ CREATE TABLE IF NOT EXISTS category(
 
 order_table = """
 CREATE TABLE IF NOT EXISTS orders(
-    meal_id serial PRIMARY KEY, 
-    user_id VARCHAR NOT NULL ,
-    qty INT NOT NULL,
-    status VARCHAR NOT NULL
+    order_id serial PRIMARY KEY, 
+    name VARCHAR NOT NULL ,
+    qty INT NOT NULL
+    
     
 );
 """

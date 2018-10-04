@@ -1,12 +1,10 @@
 from flask import Flask
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
-from app.apiv1.orders.views import Orders, SpecificOrder,AcceptedOrders,DeclineOrder,CompleteOrder
 from instance.config import app_config
 from app.apiv2.views.auth import Signup, Login
 from app.apiv2.views.meals import Meals
-from app.apiv2.views.orders import PostOrder,SpecificOrder
-
+from app.apiv2.views.orders import PostOrder, SpecificOrder, UserHistory
 
 jwt = JWTManager()
 
@@ -23,27 +21,21 @@ def create_app(config_stage):
     from app.apiv2.views.meals import meal_blueprint as meal_bp
     meal = Api(meal_bp)
 
-     
-
-    
-
-
-    from app.apiv1.orders import orders_bp as orders_blueprint
-    api = Api(orders_blueprint)
+    from app.apiv2.views.orders import orders_blueprint as orders_bp
+    orders = Api(orders_bp)
     
 
     auth.add_resource(Signup, '/signup')
     auth.add_resource(Login, '/login')
-    api.add_resource(Orders, '/orders')
     meal.add_resource(Meals, '/meals')
-    api.add_resource(SpecificOrder, '/orders/<int:id>')
-    api.add_resource(AcceptedOrders,'/orders/accept/<int:id>')
-    api.add_resource(DeclineOrder,'/orders/decline/<int:id>')
-    api.add_resource(CompleteOrder,'/orders/completeorder/<int:id>')
+    orders.add_resource(PostOrder, '/post')
+    orders.add_resource(SpecificOrder, '/orders/<int:id>')
+    orders.add_resource(UserHistory, '/orders/history')
+    #meal.add_resource(SpecificMeal, '/meals/<int:id>')
 
     app.register_blueprint(auth_bp, url_prefix='/api/v2/auth')
     app.register_blueprint(meal_bp, url_prefix='/api/v2')
-    app.register_blueprint(orders_blueprint, url_prefix='/api/v1')
+    app.register_blueprint(orders_bp, url_prefix='/api/v2')
 
     
     return app
