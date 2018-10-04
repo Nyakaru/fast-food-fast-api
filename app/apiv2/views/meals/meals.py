@@ -3,7 +3,6 @@ import json
 
 from flask_restful import Resource
 from flask import request
-from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.apiv2.models.models import MealItem, User
 
 class Meals(Resource):

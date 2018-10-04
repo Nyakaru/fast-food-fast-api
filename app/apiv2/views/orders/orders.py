@@ -1,17 +1,14 @@
 from flask import Flask, request
 from flask_restful import Resource
-from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.apiv2.models.models import User, Order, MealItem
 
 
-class PostOrder(Resource):
+class Orders(Resource):
     ##@jwt_required
     def post(self):
         '''post an order by the user'''
 
         data = request.get_json()
-
-        
         name = data['name']
         qty = data["qty"]
 

@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-from .orders import PostOrder, SpecificOrder, UserHistory
+from .orders import Orders, SpecificOrder, UserHistory
 
 orders_blueprint = Blueprint('orders', __name__)
 

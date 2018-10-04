@@ -4,7 +4,6 @@ import os
 from flask_restful import Resource
 from flask import request
 from werkzeug.security import check_password_hash
-from flask_jwt_extended import create_access_token
 import jwt
 from app.apiv2.models.models import User
 

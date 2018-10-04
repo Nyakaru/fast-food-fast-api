@@ -1,18 +1,16 @@
 from flask import Flask
 from flask_restful import Api
-from flask_jwt_extended import JWTManager
 from instance.config import app_config
 from app.apiv2.views.auth import Signup, Login
 from app.apiv2.views.meals import Meals
-from app.apiv2.views.orders import PostOrder, SpecificOrder, UserHistory
+from app.apiv2.views.orders import Orders, SpecificOrder, UserHistory
 
-jwt = JWTManager()
 
 def create_app(config_stage):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(app_config["development"])
 
-    jwt.init_app(app)
+    
 
     from app.apiv2.views.auth import auth_blueprint as auth_bp
     auth = Api(auth_bp)
@@ -28,7 +26,7 @@ def create_app(config_stage):
     auth.add_resource(Signup, '/signup')
     auth.add_resource(Login, '/login')
     meal.add_resource(Meals, '/meals')
-    orders.add_resource(PostOrder, '/post')
+    orders.add_resource(Orders, '/orders')
     orders.add_resource(SpecificOrder, '/orders/<int:id>')
     orders.add_resource(UserHistory, '/orders/history')
     #meal.add_resource(SpecificMeal, '/meals/<int:id>')
