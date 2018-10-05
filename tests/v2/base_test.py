@@ -18,19 +18,19 @@ class TestApp(unittest.TestCase):
             create_tables()
 
         self.create_user_data = {
-            "username":"Useradmin",
-            "email":"admin@gmail.com",
-            "password": "Admin123"
+            "username":"Kinadmin",
+            "email":"kin@gmail.com",
+            "password": "kinara"
         }
 
         self.order = {
             
-	        "name":"ugali 4",
+	        "name":"chicken",
 	        "qty": 2
         }
         self.meal = {
-            "name":"ugali 4",
-            "description": "djss",
+            "name":"chicken",
+            "description": "nice",
             "price": 23
         }
 
@@ -46,8 +46,8 @@ class TestApp(unittest.TestCase):
 
     def login(self):
         login_data = {
-            "username": "Useradmin",
-            "password": "Admin123"
+            "username": "kinadmin",
+            "password": "kinara"
         }
         response = self.client.post(
             "api/v2/auth/login",

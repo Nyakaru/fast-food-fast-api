@@ -15,9 +15,9 @@ class TestUser(TestApp):
         self.client = self.app.test_client()
 
         self.create_user_data = {
-            "username":"Useradmin",
-            "email":"admin@gmail.com",
-            "password": "Admin123"
+            "username":"Kinadmin",
+            "email":"kin@gmail.com",
+            "password": "kinara"
         }
             
         with self.app.app_context():
@@ -27,9 +27,9 @@ class TestUser(TestApp):
 
     def test_invalid_email(self):
         create_user_data = {
-                "username":"expert",
-                "email":"remmykgmail.com",
-                "password": "Password123"}
+                "username":"kinara",
+                "email":"nyakaru.com",
+                "password": "password"}
         
         response = self.client.post(
             "api/v2/auth/signup",
@@ -37,7 +37,7 @@ class TestUser(TestApp):
             headers={'content-type': 'application/json'}
         )
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(json.loads(response.data)["message"], "Invalid email")
+        self.assertEqual(json.loads(response.data)["message"], "Please enter a valid email")
 
     
 
