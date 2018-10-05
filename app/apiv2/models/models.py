@@ -55,7 +55,7 @@ class User():
         
 
         if user:
-            return self.objectify_user(user)
+            data =json.dumps(user)
         return None
 
 
@@ -188,13 +188,6 @@ class MealItem():
         return (meals)
     
 
-        #if meals:
-            #return meals
-            #for meal in meals:
-                #return self.objectify_meal(meal)
-        #return {'message':"Meals not found/"}
-
-
     def serialize(self):
         ''' Return object as dictionary '''
         return dict (
@@ -258,22 +251,6 @@ class Order():
             return self.objectify(order)
         return None
 
-    def get_by_name(self, name):
-        '''fetch an order by name'''
-
-        g ="SELECT * FROM orders WHERE name='{}'".format(name)
-        cur.execute(g)
-
-        order = cur.fetchone()
-
-        conn.commit()
-        
-
-        if order:
-            return self.objectify(order)
-        return None
-        
-
     def get_all_orders(self):
         '''  Get all food orders '''
         cur.execute(''' SELECT * FROM orders''')
@@ -286,25 +263,6 @@ class Order():
         if orders:
             return [self.objectify(order) for order in orders]
         return None
-
-    def get_order_history(self, username):
-        ''' fetch all orders of a particular user'''
-        d = "SELECT * FROM users WHERE username='{}'".format(username)
-        
-        cur.execute(d)
-        
-        orders = cur.fetchall()
-        #print("\n\n\n####{}\n\n".format(orders))
-        conn.commit()
-      
-        if orders:
-            return [self.objectify(order) for order in orders]
-        return None
-    def delete(self, order_id):
-        ''' Delete order '''
-        cur.execute(''' DELETE FROM orders WHERE id=%s''',
-                            (order_id, ))
-        conn.commit()
         
 
     def serialize(self):
