@@ -39,7 +39,7 @@ class Meals(Resource):
         price = data['price']
        
         if MealItem().get_by_name(name):
-            return {'message': 'meal with name {name} alredy exists'}, 409
+            return {'message': 'meal with name {name} alredy exists'}, 404
 
         if not re.match('^[a-zA-Z 0-9]+$', name):
             return {'message': "Enter a valid food name"}, 400

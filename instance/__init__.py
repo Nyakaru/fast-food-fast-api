@@ -14,17 +14,17 @@ def create_app(config_stage):
 
     
 
-    from app.apiv2.views.auth import auth_blueprint as auth_bp
+    from app.apiv2 import auth_blueprint as auth_bp
     auth = Api(auth_bp)
     
-    from app.apiv2.views.admin import admin_blueprint as admin_bp
+    from app.apiv2 import admin_blueprint as admin_bp
     admin = Api(admin_bp)
     
 
-    from app.apiv2.views.meals import meal_blueprint as meal_bp
+    from app.apiv2 import meal_blueprint as meal_bp
     meal = Api(meal_bp)
 
-    from app.apiv2.views.orders import orders_blueprint as orders_bp
+    from app.apiv2 import orders_blueprint as orders_bp
     orders = Api(orders_bp)
     
     admin.add_resource(SignAdmin, '/signadmin')
