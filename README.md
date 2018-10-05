@@ -114,7 +114,7 @@ What you need to get started:
 ### Hosting
 
 ### Api Documentation
-https://documenter.getpostman.com/view/5294981/RWgjYMBB
+https://documenter.getpostman.com/view/5294981/RWgnXL2o
 
 ## Endpoints
 
