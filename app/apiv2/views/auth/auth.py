@@ -17,17 +17,18 @@ class Signup(Resource):
         email = data["email"]
         password = data['password']
 
-        if not re.match('^[a-zA-Z0-9]{6,20}$', username):
+        if not re.match('^[a-zA-Z 0-9]{6,20}$', username):
             return {'message':'Please enter a valid username'}, 400
+        username = username.strip(" ")
 
-        if not re.match(r"^[^@]+@[^@]+\.[^@]+$", email):
+        if not re.match('^[^@]+@[^@]+\.[^@]+$', email):
             return {'message': 'Invalid email'}, 400
 
         if not re.match("^[a-zA-Z0-9$!#]{8,20}$", password):
             return {'message':'Enter a valid password'}, 400
         
         if User().get_user_by_username(username):
-            return {'message': 'username already in use'}, 400
+            return {'message': 'username already in use'}, 409
        
 
 

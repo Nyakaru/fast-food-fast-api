@@ -1,5 +1,6 @@
 from flask import Blueprint
 
-from .views import Orders
+from app.apiv1.orders.views Orderss,DeclineOrder
 
-orders_bp = Blueprint('orders', __name__)
+orderss_bp = Blueprint('orderss', __name__)
+declineorder_bp = Blueprint('orderss', __name__)

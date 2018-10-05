@@ -3,6 +3,7 @@ from flask_restful import Resource
 from app.apiv2.models.models import User, Order, MealItem
 from functools import wraps
 import jwt
+import re
 
 def auth_login(func):
     @wraps(func)
@@ -48,18 +49,24 @@ class Orders(Resource):
     @auth_login
     def post(self):
         '''post an order by the user'''
-
+        #current_user = jwt.
         data = request.get_json()
         name = data['name']
         qty = data["qty"]
+        #address = address["address"]
+
+        if Order().get_by_name(name):
+            return {'message': 'order with name alredy exists'}, 400
+        if not re.match('^[a-zA-Z]+$', name):
+            return {'message': "Enter a valid order name"}, 400
+        if len(name) < 3:
+            return {'Enter a valid order name'}, 400
 
         order = Order(name, qty)
-        order.add()
-
-        return {"message": "order placed sucessfully"}, 201
-
-
-    @admin_login
+        if order.add():
+            return {"message": "order placed sucessfully","name":name, "qty":qty}, 201
+        return {"message":"meal does not exist"} , 404
+    #@admin_login
     def get(self):
 
         ''' get all orders'''
@@ -71,7 +78,7 @@ class Orders(Resource):
         return {"message": "No orders found"}
 
 class SpecificOrder(Resource):
-    @admin_login
+    #@admin_login
     def get(self, id):
         '''get a specific order by id'''
 

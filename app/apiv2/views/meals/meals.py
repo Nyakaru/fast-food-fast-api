@@ -39,7 +39,7 @@ class Meals(Resource):
         price = data['price']
        
         if MealItem().get_by_name(name):
-            return {'message': 'meal with name {name} alredy exists'}, 400
+            return {'message': 'meal with name {name} alredy exists'}, 409
 
         if not re.match('^[a-zA-Z 0-9]+$', name):
             return {'message': "Enter a valid food name"}, 400
@@ -55,22 +55,22 @@ class Meals(Resource):
 
         mealitem.add()
         
-        return {"message": "meal item created"}
-    @admin_login
+        return {"message": "meal item created"} ,201
+
     def get(self):
-        
         '''return a list of created mealitems'''
 
         meal_items = MealItem().get_all_meals()
-        
         if meal_items:
-            meals = [json.dumps(i) for i in meal_items]
-
             return {
-                "food_items": meals
+                "food_items": [meal_item.serialize() for meal_item in meal_items]
             }, 200
 
-        return {"message": "meal items not found"}
+        return {"message": "meal item not found"}, 404
+
+
+        
+        
 
 
 
@@ -86,14 +86,3 @@ class Meals(Resource):
 
 
 
-#class SpecificMeal(Resource):
-
- #   def delete(self, id):
-        ''' Method that deletes a specific meal '''
-
-  #      meal_item = MealItem().get_by_id(id)
-
-   #     if meal_item:
-    #        meal_item.delete(id)
-     #       return {"message": "meal deleted successfully"}
-      #  return {"message": "Order not found"}

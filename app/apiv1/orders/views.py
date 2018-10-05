@@ -5,7 +5,7 @@ from app.apiv1.models.models import orders, Order
 
 orders = []
 
-class Orders(Resource):
+class Orderss(Resource):
     """
     GET/ all orders placed
     POST/ a new order
@@ -30,7 +30,7 @@ class Orders(Resource):
         if name in orders:
             return {'message': 'Order already exists'}
 
-class SpecificOrder(Resource):
+class OneOrder(Resource):
     """
     GET/ a specific order
     PUT/ edit a specific order

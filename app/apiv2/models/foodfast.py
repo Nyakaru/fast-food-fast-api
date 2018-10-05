@@ -34,18 +34,13 @@ CREATE TABLE IF NOT EXISTS meals(
     description VARCHAR NOT NULL,
     name VARCHAR NOT NULL 
 );
-"""
 
-category_table = """
-CREATE TABLE IF NOT EXISTS category(
-    category_id serial PRIMARY KEY,
-    category_name VARCHAR NOT NULL
-);
 """
 
 order_table = """
 CREATE TABLE IF NOT EXISTS orders(
     order_id serial PRIMARY KEY, 
+    user_id int NOT NULL ,
     name VARCHAR NOT NULL ,
     qty INT NOT NULL
     
@@ -53,17 +48,23 @@ CREATE TABLE IF NOT EXISTS orders(
 );
 """
 def create_tables():
-    cur.execute(user_table)
-    cur.execute(meals_table)
-    cur.execute(category_table)
-    cur.execute(order_table)
-    cur.execute(admin_table)
-    conn.commit()
-    cur.close()
-    conn.close()
+    queries = [user_table,admin_table,meals_table,order_table]
+    for i in queries:
+        cur.execute(i)
+        conn.commit()
+        
+
+def drop_tables():
+    query1 = "DROP TABLE users"
+    query2 = "DROP TABLE meals"
+    query3 = "DROP TABLE orders"
+    query4 = "DROP TABLE admin"
+    queries = [query1,query2,query3,query4]
+    for i in queries:
+        cur.execute(i)
+        conn.commit()
+        
 
 
-if __name__=='__main__':
-    create_tables()
 
 #tables = [user_table, meals_table, category_table, order_table ]

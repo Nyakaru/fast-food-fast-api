@@ -181,9 +181,13 @@ class MealItem():
                            
 
         meals = cur.fetchall()
+        conn.commit()
+        if meals:
+            return [self.objectify_meal(meal) for meal in meals]
+        return None
 
-        return meals
-        
+        return (meals)
+    
 
         #if meals:
             #return meals
@@ -228,11 +232,17 @@ class Order():
     def add(self):
         ''' Add food order to database'''
         #print(self.username)
-        cur.execute(
-            ''' INSERT INTO orders(name, qty) VALUES(%s,%s)''',
-            (self.name, self.qty))
+        sql = "SELECT * from meals where name = %s;"
+        cur.execute(sql,([self.name]))
+        available = cur.fetchall()
+        if available:
+            cur.execute(
+                ''' INSERT INTO orders(name, qty) VALUES(%s,%s)''',
+                (self.name, self.qty))
 
-        conn.commit()
+            conn.commit()
+            return True
+        return False
     
 
     def get_by_id(self, order_id):
@@ -249,18 +259,20 @@ class Order():
             return self.objectify(order)
         return None
 
-    def get_by_username(self, username):
-        '''fetch orders by username'''
-        v = "SELECT * FROM users WHERE username='{}'".format(username)
-        cur.execute(v)
-        orders = cur.fetchall()
-        #print("\n\n\n####{}\n\n".format(orders))
-        conn.commit()
-      
-        if orders:
-            return [self.objectify(order) for order in orders]
-        return None
+    def get_by_name(self, name):
+        '''fetch an order by name'''
 
+        g ="SELECT * FROM orders WHERE name='{}'".format(name)
+        cur.execute(g)
+
+        order = cur.fetchone()
+
+        conn.commit()
+        
+
+        if order:
+            return self.objectify(order)
+        return None
         
 
     def get_all_orders(self):

@@ -7,6 +7,7 @@ from app.apiv2.views.meals import Meals
 from app.apiv2.views.orders import Orders, SpecificOrder, UserHistory
 
 
+
 def create_app(config_stage):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(app_config["development"])
