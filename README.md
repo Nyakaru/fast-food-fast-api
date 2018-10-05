@@ -110,11 +110,7 @@ What you need to get started:
     $ pytest --with-coverage --cover-package=app/api/v2 --cover-html 
     ```
 
-## Documentation
 
-Documentation can be accessed on:
-
-    https://documenter.getpostman.com/view/5294981/RWgnXL2o
 ### Hosting
 
 ### Api Documentation

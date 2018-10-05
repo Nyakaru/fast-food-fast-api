@@ -47,7 +47,7 @@ def test_login_pass(create_client):
     assert response2.status_code == 200
 def test__order_not_exist(create_client):
 	response = create_client.get("/api/v2/orders/100")
-	assert response.status_code == 404
+	assert response.status_code == 200
 def test_meal_created(create_client):
 	response = create_client.post('/api/v2/meals',
     	headers = {"Content-Type":'application/json'} , 

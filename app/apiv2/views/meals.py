@@ -32,14 +32,12 @@ class Meals(Resource):
         ''' Method that creates a meal item '''
 
         data = request.get_json()
-        print(data)
+        
         
         name = data['name']
         description = data['description']
         price = data['price']
        
-        if MealItem().get_by_name(name):
-            return {'message': 'meal with name {name} alredy exists'}, 404
 
         if not re.match('^[a-zA-Z 0-9]+$', name):
             return {'message': "Enter a valid food name"}, 400
@@ -50,6 +48,10 @@ class Meals(Resource):
         if type(price) != int:
             return {'message': "Invalid price"}, 400
 
+        meal = MealItem().get_by_name(name)
+
+        if meal:
+            return {'message': 'meal with name {meal} alredy exists'}, 404
 
         mealitem = MealItem(name, description, price)
 

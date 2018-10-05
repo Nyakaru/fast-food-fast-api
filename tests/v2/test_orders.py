@@ -22,7 +22,7 @@ class TestOrders(TestApp):
     
     def test_post_order(self):
         token = self.get_token()
-        self.client.post('/api/v2/orders',
+        self.client.post('/api/v2/orders', 
             headers = {"content-type":"application/json"},
             data = json.dumps(self.meal)
         )

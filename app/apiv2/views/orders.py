@@ -8,8 +8,8 @@ import re
 def auth_login(func):
     @wraps(func)
     def decorate_function(*args,**kwargs):
-        if 'ACESS' in request.headers:
-            token_key = request.headers['ACESS']
+        if 'Access' in request.headers:
+            token_key = request.headers['Access']
             
 
             try:
@@ -53,10 +53,10 @@ class Orders(Resource):
         qty = data["qty"]
         
 
-        if Order().get_by_name(name):
-              return {'message': 'order with name alredy exists'}, 400
-        if not re.match('^[a-zA-Z]+$', name):
-            return {'message': "Enter a valid order name"}, 400
+        # if Order().get_by_name(name):
+        #      return {'message': 'order with name alredy exists'}, 400
+        # if not re.match('^[a-zA-Z]+$', name):
+         #   return {'message': "Enter a valid order name"}, 400
         if len(name) < 3:
             return {'Enter a valid order name'}, 400
 
@@ -82,7 +82,7 @@ class SpecificOrder(Resource):
     def get(self, id):
         '''get a specific order by id'''
 
-        order = Order().get_by_id(id)
+        order = Order().get_order_by_id(id)
 
         if order:
             return {"order": order.serialize()}, 200

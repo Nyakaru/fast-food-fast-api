@@ -168,7 +168,9 @@ class MealItem():
         
 
         if meal:
-            return self.objectify(meal)
+            return {
+            "mealname":meal[1]
+            }
         return None
 
         
@@ -249,6 +251,21 @@ class Order():
         if orders:
             return [self.objectify(order) for order in orders]
         return None
+
+    def get_order_by_id(self,id):
+        '''  Get all food orders '''
+        f = "SELECT * FROM orders WHERE id='{}'".format(id)
+        cur.execute(f)
+                           
+
+        order = cur.fetchone()
+
+        conn.commit()
+        
+
+        if order:
+            return {"name":order[1]}
+        return None
         
 
     def serialize(self):
@@ -259,7 +276,7 @@ class Order():
             qty = self.qty
         )
     
-    def objectify(self, data):
+    def objectify_order(self, data):
         ''' map tuple to an object '''
         order = Order(
             name=data[0],
