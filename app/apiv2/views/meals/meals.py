@@ -11,7 +11,7 @@ def admin_login(func):
     def decorate_function(*args,**kwargs):
         if 'ADMIN-KEY' in request.headers:
             token_key = request.headers['ADMIN-KEY']
-            print token_key
+            
 
             try:
                 values = jwt.decode(token_key,'verysecret')

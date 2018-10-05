@@ -10,7 +10,7 @@ def auth_login(func):
     def decorate_function(*args,**kwargs):
         if 'LOGIN-KEY' in request.headers:
             token_key = request.headers['LOGIN-KEY']
-            print token_key
+            
 
             try:
                 values = jwt.decode(token_key,'verysecret')

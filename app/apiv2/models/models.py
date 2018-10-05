@@ -19,7 +19,6 @@ def connection():
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
 conn = connection()
-print conn
 cur = conn.cursor()
 
 class User():

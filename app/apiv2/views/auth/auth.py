@@ -21,7 +21,7 @@ class Signup(Resource):
             return {'message':'Please enter a valid username'}, 400
         username = username.strip(" ")
 
-        if not re.match('^[^@]+@[^@]+\.[^@]+$', email):
+        if not re.match('^[^@]+@[^@]+.[^@]+$', email):
             return {'message': 'Invalid email'}, 400
 
         if not re.match("^[a-zA-Z0-9$!#]{8,20}$", password):
