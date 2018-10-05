@@ -14,9 +14,7 @@ def auth_login(func):
 
             try:
                 values = jwt.decode(token_key,'verysecret')
-                print values
-                
-
+               
             except:
                 return 'Invalid Token error'  
         else:
