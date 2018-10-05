@@ -55,7 +55,7 @@ class User():
         
 
         if user:
-            data =json.dumps(user)
+            return self.objectify_user(user)
         return None
 
 
@@ -237,20 +237,6 @@ class Order():
         return False
     
 
-    def get_by_id(self, order_id):
-        '''fetch an order by id'''
-        j = "SELECT * FROM orders WHERE order_id='{}'".format(order_id)
-        cur.execute(j)                   
-
-        order = cur.fetchone()
-
-        conn.commit()
-        
-
-        if order:
-            return self.objectify(order)
-        return None
-
     def get_all_orders(self):
         '''  Get all food orders '''
         cur.execute(''' SELECT * FROM orders''')
@@ -268,7 +254,7 @@ class Order():
     def serialize(self):
         ''' return object as a dictionary '''
         return dict (
-            id = self.id,
+            
             name = self.name,
             qty = self.qty
         )
@@ -276,10 +262,10 @@ class Order():
     def objectify(self, data):
         ''' map tuple to an object '''
         order = Order(
-            name=data[1],
-            qty=data[2],
+            name=data[0],
+            qty=data[1],
             )
-        order.id = data[0]
+        #order.id = data[0]
         self = order
         return self
           

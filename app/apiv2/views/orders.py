@@ -8,8 +8,8 @@ import re
 def auth_login(func):
     @wraps(func)
     def decorate_function(*args,**kwargs):
-        if 'LOGIN-KEY' in request.headers:
-            token_key = request.headers['LOGIN-KEY']
+        if 'ACESS' in request.headers:
+            token_key = request.headers['ACESS']
             
 
             try:
@@ -26,8 +26,8 @@ def auth_login(func):
 def admin_login(func):
     @wraps(func)
     def decorate_function(*args,**kwargs):
-        if 'ADMIN-KEY' in request.headers:
-            token_key = request.headers['ADMIN-KEY']
+        if 'AUTH' in request.headers:
+            token_key = request.headers['AUTH']
             print token_key
 
             try:
@@ -51,10 +51,10 @@ class Orders(Resource):
         data = request.get_json()
         name = data['name']
         qty = data["qty"]
-        #address = address["address"]
+        
 
         if Order().get_by_name(name):
-            return {'message': 'order with name alredy exists'}, 400
+              return {'message': 'order with name alredy exists'}, 400
         if not re.match('^[a-zA-Z]+$', name):
             return {'message': "Enter a valid order name"}, 400
         if len(name) < 3:
@@ -74,9 +74,11 @@ class Orders(Resource):
                 "orders": [order_item.serialize() for order_item in order_items]
             }, 200
         return {"message": "No orders found"}
+        
+
 
 class SpecificOrder(Resource):
-    #@admin_login
+    @admin_login
     def get(self, id):
         '''get a specific order by id'''
 

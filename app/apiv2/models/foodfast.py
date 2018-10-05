@@ -39,8 +39,6 @@ CREATE TABLE IF NOT EXISTS meals(
 
 order_table = """
 CREATE TABLE IF NOT EXISTS orders(
-    order_id serial PRIMARY KEY, 
-    user_id int NOT NULL ,
     name VARCHAR NOT NULL ,
     qty INT NOT NULL
     

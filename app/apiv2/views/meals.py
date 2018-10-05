@@ -9,8 +9,8 @@ from app.apiv2.models.models import MealItem, User
 def admin_login(func):
     @wraps(func)
     def decorate_function(*args,**kwargs):
-        if 'ADMIN-KEY' in request.headers:
-            token_key = request.headers['ADMIN-KEY']
+        if 'AUTH' in request.headers:
+            token_key = request.headers['AUTH']
             
 
             try:
